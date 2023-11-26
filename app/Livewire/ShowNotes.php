@@ -6,6 +6,7 @@ use App\Enums\TodoStatus;
 use App\Models\Note;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ShowNotes extends Component
@@ -108,7 +109,7 @@ class ShowNotes extends Component
         $this->authorize('update', $note);
 
         $note->update(['todo_status' => TodoStatus::Completed]);
-        
+
         $note->children()->update(['parent_id' => $note->parent_id]);
         $note->delete();
     }
@@ -135,6 +136,14 @@ class ShowNotes extends Component
 
         $note->children()->update(['parent_id' => $note->parent_id]);
         $note->delete();
+    }
+
+    #[On('note-unpinned')]
+    public function unpinNote(Note $note): void
+    {
+        $this->authorize('update', $note);
+
+        $this->togglePin($note);
     }
 
     public function render()

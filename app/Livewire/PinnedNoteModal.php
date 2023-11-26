@@ -22,4 +22,11 @@ class PinnedNoteModal extends Component
         $this->note = Note::find($id);
         $this->show = true;
     }
+
+    public function togglePin(): void
+    {
+        $this->show = false;
+
+        $this->dispatch('note-unpinned', $this->note)->to(ShowNotes::class);
+    }
 }
