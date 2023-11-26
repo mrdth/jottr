@@ -21,6 +21,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Styles -->
+    @laravelPWA
     @livewireStyles
 </head>
 <body class="font-sans antialiased">
