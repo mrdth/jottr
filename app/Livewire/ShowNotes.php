@@ -101,6 +101,22 @@ class ShowNotes extends Component
         $note->update(['todo_status' => TodoStatus::Completed]);
     }
 
+    public function togglePin(Note $note): void
+    {
+        $this->authorize('update', $note);
+
+        $note->update(['pinned' => !$note->pinned]);
+    }
+
+    public function toggleTodo(Note $note): void
+    {
+        $this->authorize('update', $note);
+
+        $status = $note->todo_status === null ? TodoStatus::Pending : null;
+
+        $note->update(['todo_status' => $status]);
+    }
+
     public function render()
     {
         return view('livewire.show-notes');

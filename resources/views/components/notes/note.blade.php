@@ -8,7 +8,9 @@
             @if($note->todo_status !== null)
                 <div>TODO: {{ $note->todo_status }}</div>
             @endif
-            <div>parent: {{ $note->parent_id }}</div>
+            <div>
+                <x-notes.note-actions :note="$note"/>
+            </div>
         </h2>
 
     </div>

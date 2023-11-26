@@ -20,11 +20,13 @@ class Note extends Model
         'next_id',
         'user_id',
         'todo_status',
+        'pinned',
     ];
 
 
     protected $casts = [
         'todo_status' => TodoStatus::class,
+        'pinned' => 'boolean',
     ];
 
     public function owner(): BelongsTo

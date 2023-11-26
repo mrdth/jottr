@@ -4,6 +4,8 @@
         "hidden" => !$this->show
      ])
      data-modal-placement="center-center"
+     wire:keyup.escape="$set('show', false)"
+     wire:click="$set('show', false)"
 >
     <div class="relative p-4 w-full max-w-2xl max-h-full">
         <!-- Modal content -->
