@@ -108,6 +108,9 @@ class ShowNotes extends Component
         $this->authorize('update', $note);
 
         $note->update(['todo_status' => TodoStatus::Completed]);
+        
+        $note->children()->update(['parent_id' => $note->parent_id]);
+        $note->delete();
     }
 
     public function togglePin(Note $note): void
