@@ -18,12 +18,16 @@ class ShowNotes extends Component
 
     public function getNotesProperty(): Collection
     {
-        $notes = auth()
+        $notes = request()
             ->user()
             ->notes()
             ->withCount('children')
-            ->where('todo_status', '<>', TodoStatus::Completed)
-            ->orWhereNull('todo_status');
+            ->where(
+                function ($query) {
+                    $query->where('todo_status', '<>', TodoStatus::Completed)
+                        ->orWhereNull('todo_status');
+                }
+            );
 
         if ($this->note_type === 'todos') {
             $notes = $notes->where('todo_status', '<>', null);
