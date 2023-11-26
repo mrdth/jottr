@@ -9,7 +9,6 @@ This note is written in Markdown. You can use Markdown to format your notes. For
 You can also add links:
 
 - [Link to a website](https://example.com)
-- [Link to a file](/storage/app/welcome-note.mde.md)
 
 ## Collections
 
