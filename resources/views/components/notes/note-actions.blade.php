@@ -30,7 +30,11 @@
             </x-dropdown-link>
 
 
-            <x-dropdown-link class="block px-4 py-2 text-xs text-gray-400 cursor-pointer">
+            <x-dropdown-link
+                class="block px-4 py-2 text-xs text-gray-400 cursor-pointer"
+                wire:click="deleteNote({{ $note->id }})"
+                wire:confirm="Are you sure you want to delete this note?"
+            >
                 {{ __('Delete') }}
             </x-dropdown-link>
         </x-slot>

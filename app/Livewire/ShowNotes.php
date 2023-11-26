@@ -117,6 +117,14 @@ class ShowNotes extends Component
         $note->update(['todo_status' => $status]);
     }
 
+    public function deleteNote(Note $note): void
+    {
+        $this->authorize('delete', $note);
+
+        $note->children()->update(['parent_id' => $note->parent_id]);
+        $note->delete();
+    }
+
     public function render()
     {
         return view('livewire.show-notes');

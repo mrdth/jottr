@@ -22,6 +22,7 @@ return new class extends Migration {
                 $table->boolean('pinned')->default(false);
                 $table->enum('todo_status', ['pending', 'in_progress', 'completed'])->nullable();
                 $table->timestamps();
+                $table->softDeletes();
             }
         );
     }
