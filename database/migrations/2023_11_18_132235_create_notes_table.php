@@ -15,10 +15,10 @@ return new class extends Migration {
             function (Blueprint $table) {
                 $table->id();
                 $table->text('content');
-                $table->unsignedInteger('parent_id')->nullable();
+                $table->unsignedInteger('parent_id')->nullable()->index();
                 $table->unsignedInteger('previous_id')->nullable();
                 $table->unsignedInteger('next_id')->nullable();
-                $table->unsignedInteger('user_id')->nullable();
+                $table->unsignedInteger('user_id')->nullable()->index();
                 $table->boolean('pinned')->default(false);
                 $table->enum('todo_status', ['pending', 'in_progress', 'completed'])->nullable();
                 $table->timestamps();
