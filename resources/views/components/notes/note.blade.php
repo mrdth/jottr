@@ -3,15 +3,9 @@
         "pl-4 sm:pl-8" => $note->parent_id
 ])>
     <div class="header">
-        <h2 class="flex justify-between">
-            <div>id: {{ $note->id }}</div>
-            @if($note->todo_status !== null)
-                <div>TODO: {{ $note->todo_status }}</div>
-            @endif
-            <div>
-                <x-notes.note-actions :note="$note"/>
-            </div>
-        </h2>
+        <div class="flex justify-end">
+            <x-notes.note-actions :note="$note"/>
+        </div>
 
     </div>
     <div class="flex">
@@ -24,6 +18,7 @@
             class="body pb-4 sm:pb-8 border-b border-gray-200 dark:border-gray-700 prose lg:prose-xl dark:prose-invert">
             @markdown($note->content)
         </div>
+
     </div>
 
     @if (isset($this->notes[$note->id]))

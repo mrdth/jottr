@@ -79,18 +79,27 @@ class ShowNotes extends Component
             $todo = TodoStatus::Pending;
         }
 
+        $collection = false;
+        if (Str::startsWith($this->new_note, '@collection')) {
+            $this->new_note = Str::after($this->new_note, ' ');
+            $collection = true;
+        }
+
         if (Str::startsWith($this->new_note, 'http')) {
             $this->new_note = '<a href="' . $this->new_note . '" target="_blank">' . $this->new_note . '</a>';
         }
 
-        auth()->user()->notes()->create(
+        $note = auth()->user()->notes()->create(
             [
                 'parent_id' => $this->parent,
-                'content' => $this->new_note,
+                'content' => trim($this->new_note),
                 'todo_status' => $todo,
             ]
         );
 
+        if ($collection) {
+            $this->parent = $note->id;
+        }
         $this->reset('new_note');
     }
 
