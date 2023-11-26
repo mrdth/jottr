@@ -17,7 +17,12 @@ class ShowNotes extends Component
 
     public function getNotesProperty(): Collection
     {
-        $notes = auth()->user()->notes()->withCount('children');
+        $notes = auth()
+            ->user()
+            ->notes()
+            ->withCount('children')
+            ->where('todo_status', '<>', TodoStatus::Completed)
+            ->orWhereNull('todo_status');
 
         if ($this->note_type === 'todos') {
             $notes = $notes->where('todo_status', '<>', null);
@@ -33,11 +38,15 @@ class ShowNotes extends Component
     public function setParent($parent_id): void
     {
         $this->reset('note_type');
+
+        $this->authorize('view', Note::find($parent_id));
+
         $this->parent = $parent_id;
     }
 
     public function setPinned($id): void
     {
+        $this->authorize('view', Note::find($id));
         $this->dispatch('set-pinned-note', $id)->to(PinnedNoteModal::class);
     }
 
@@ -74,9 +83,8 @@ class ShowNotes extends Component
             $this->new_note = '<a href="' . $this->new_note . '" target="_blank">' . $this->new_note . '</a>';
         }
 
-        Note::create(
+        auth()->user()->notes()->create(
             [
-                'user_id' => auth()->id(),
                 'parent_id' => $this->parent,
                 'content' => $this->new_note,
                 'todo_status' => $todo,
@@ -84,6 +92,13 @@ class ShowNotes extends Component
         );
 
         $this->reset('new_note');
+    }
+
+    public function completeTodo(Note $note): void
+    {
+        $this->authorize('update', $note);
+
+        $note->update(['todo_status' => TodoStatus::Completed]);
     }
 
     public function render()

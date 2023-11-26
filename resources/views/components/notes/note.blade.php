@@ -6,14 +6,22 @@
         <h2 class="flex justify-between">
             <div>id: {{ $note->id }}</div>
             @if($note->todo_status !== null)
-                <div>TODO</div>
+                <div>TODO: {{ $note->todo_status }}</div>
             @endif
             <div>parent: {{ $note->parent_id }}</div>
         </h2>
 
     </div>
-    <div class="body pb-4 sm:pb-8 border-b border-gray-200 dark:border-gray-700 prose lg:prose-xl dark:prose-invert">
-        @markdown($note->content)
+    <div class="flex">
+        @if($note->todo_status !== null)
+            <div class="todo-status pt-1 pr-3">
+                <input type="checkbox" aria-label="Complete todo" wire:click="completeTodo({{ $note->id }})">
+            </div>
+        @endif
+        <div
+            class="body pb-4 sm:pb-8 border-b border-gray-200 dark:border-gray-700 prose lg:prose-xl dark:prose-invert">
+            @markdown($note->content)
+        </div>
     </div>
 
     @if (isset($this->notes[$note->id]))
