@@ -8,6 +8,12 @@
         <x-slot name="content">
             <x-dropdown-link
                 class="block px-4 py-2 text-xs text-gray-400 cursor-pointer"
+                wire:click="$dispatch('set-pinned-note', {id: {{ $note->id }}, editing: true})"
+            >
+                Edit note
+            </x-dropdown-link>
+            <x-dropdown-link
+                class="block px-4 py-2 text-xs text-gray-400 cursor-pointer"
                 wire:click="togglePin({{ $note->id }})"
             >
                 {{ $note->pinned ? 'Unpin note' : 'Pin note' }}

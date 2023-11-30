@@ -42,7 +42,7 @@
             </li>
 
             @foreach($this->pinned_notes as $pinned)
-                <li wire:click="setPinned({{ $pinned->id }})">
+                <li wire:click="$dispatch('set-pinned-note', {id: {{ $pinned->id }} })">
                     <x-notes.sidebar-link :item="$pinned"/>
 
                 </li>

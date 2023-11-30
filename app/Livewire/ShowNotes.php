@@ -49,12 +49,6 @@ class ShowNotes extends Component
         $this->parent = $parent_id;
     }
 
-    public function setPinned($id): void
-    {
-        $this->authorize('view', Note::find($id));
-        $this->dispatch('set-pinned-note', $id)->to(PinnedNoteModal::class);
-    }
-
     public function getPinnedNotesProperty(): Collection
     {
         return auth()->user()->notes()->wherePinned(true)->get();
@@ -148,6 +142,12 @@ class ShowNotes extends Component
         $this->authorize('update', $note);
 
         $this->togglePin($note);
+    }
+
+    #[On('refresh')]
+    public function refresh(): void
+    {
+        $this->render();
     }
 
     public function render()

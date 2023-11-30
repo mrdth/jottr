@@ -1,4 +1,4 @@
-<div class="">
+<div class="" x-on:refresh="$refresh">
     <div class="bg-white dark:bg-gray-950 overflow-y-auto w-full xl:m-auto">
         <ul class="">
             @foreach ($notes as $note)

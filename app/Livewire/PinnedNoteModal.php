@@ -10,6 +10,8 @@ class PinnedNoteModal extends Component
 {
     public ?Note $note = null;
     public bool $show = false;
+    public bool $editing = false;
+    public string $new_note = '';
 
     public function render()
     {
@@ -17,9 +19,16 @@ class PinnedNoteModal extends Component
     }
 
     #[On('set-pinned-note')]
-    public function updateNote($id): void
+    public function showNote($id, $editing = false): void
     {
+        $this->authorize('view', Note::find($id));
         $this->note = Note::find($id);
+
+        $this->editing = $editing;
+        if ($this->editing) {
+            $this->new_note = $this->note->content;
+        }
+
         $this->show = true;
     }
 
@@ -28,5 +37,18 @@ class PinnedNoteModal extends Component
         $this->show = false;
 
         $this->dispatch('note-unpinned', $this->note)->to(ShowNotes::class);
+    }
+
+    public function save(): void
+    {
+        $this->show = false;
+
+        if (!$this->new_note) {
+            return;
+        }
+
+        $this->note->update(['content' => $this->new_note]);
+
+        $this->dispatch('refresh')->to(ShowNotes::class);
     }
 }
